@@ -241,6 +241,22 @@ module.exports = function(options) {
                     }
                 }
             }
+			sts = content.match(/<script[^>]*data-src=['"]?([^>'"]*)['"]?[^>]*>[^<]*<\/script>/g);
+            if (util.isArray(sts) && sts.length) {
+                for (var i = 0, len = sts.length; i < len; i++) {
+                    var _RULE = sts[i].match(/data-src=['"]?([^>'"]*)['"]?/);
+                    if (_RULE[1]) {
+                        var _UrlPs = parseURL(_RULE[1]);
+                        var _Query = queryToJson(_UrlPs.query);
+                        var _Append = {};
+                        if (!_Query.hasOwnProperty(k) || this['cover']) {
+                            _Append[k] = v;
+                        }
+                        _UrlPs.query = jsonToQuery(util._extend(_Query, _Append));
+                        content = content.replace(sts[i], sts[i].replace(_RULE[1], renderingURL(_UrlPs)));
+                    }
+                }
+            }
             return content;
         },
         'image' : function(content, k, v) {
@@ -303,6 +319,7 @@ module.exports = function(options) {
                     if (err) {
                         return cb(new gutil.PluginError('gulp-version-number', err));
                     }
+					console.log("Analyzing file " + file.path);
                     options['replaces'] && ( data = apply_replace(data, options.replaces));
                     options['append'] && ( data = apply_append(data, options.append));
                     file.contents = new Buffer(data);
