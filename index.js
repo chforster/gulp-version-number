@@ -257,6 +257,38 @@ module.exports = function(options) {
                     }
                 }
             }
+			sts = content.match(/<script[^>]*data-mejssrc=['"]?([^>'"]*)['"]?[^>]*>[^<]*<\/script>/g);
+            if (util.isArray(sts) && sts.length) {
+                for (var i = 0, len = sts.length; i < len; i++) {
+                    var _RULE = sts[i].match(/data-mejssrc=['"]?([^>'"]*)['"]?/);
+                    if (_RULE[1]) {
+                        var _UrlPs = parseURL(_RULE[1]);
+                        var _Query = queryToJson(_UrlPs.query);
+                        var _Append = {};
+                        if (!_Query.hasOwnProperty(k) || this['cover']) {
+                            _Append[k] = v;
+                        }
+                        _UrlPs.query = jsonToQuery(util._extend(_Query, _Append));
+                        content = content.replace(sts[i], sts[i].replace(_RULE[1], renderingURL(_UrlPs)));
+                    }
+                }
+            }
+			sts = content.match(/<script[^>]*data-touchsrc=['"]?([^>'"]*)['"]?[^>]*>[^<]*<\/script>/g);
+            if (util.isArray(sts) && sts.length) {
+                for (var i = 0, len = sts.length; i < len; i++) {
+                    var _RULE = sts[i].match(/data-touchsrc=['"]?([^>'"]*)['"]?/);
+                    if (_RULE[1]) {
+                        var _UrlPs = parseURL(_RULE[1]);
+                        var _Query = queryToJson(_UrlPs.query);
+                        var _Append = {};
+                        if (!_Query.hasOwnProperty(k) || this['cover']) {
+                            _Append[k] = v;
+                        }
+                        _UrlPs.query = jsonToQuery(util._extend(_Query, _Append));
+                        content = content.replace(sts[i], sts[i].replace(_RULE[1], renderingURL(_UrlPs)));
+                    }
+                }
+            }
             return content;
         },
         'image' : function(content, k, v) {
