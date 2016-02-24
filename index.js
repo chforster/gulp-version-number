@@ -219,7 +219,7 @@ module.exports = function(options) {
                         }
                         _UrlPs.query = jsonToQuery(util._extend(_Query, _Append));
                         var rendered = renderingURL(_UrlPs);
-                        console.log(filename + ": " + sts[i] + " ----> Replacing '" + _RULE[1] + "' with '"  + rendered + "'");
+                        console.log(filename + ": " + sts[i] + "\nReplace\t " + _RULE[1] + "\nwith\t"  + rendered);
                         content = content.replace(sts[i], sts[i].replace(_RULE[1], rendered));
                     }
                 }
@@ -240,7 +240,7 @@ module.exports = function(options) {
                         }
                         _UrlPs.query = jsonToQuery(util._extend(_Query, _Append));
                         var rendered = renderingURL(_UrlPs);
-                        console.log(filename + ": " + sts[i] + " ----> Replacing '" + _RULE[1] + "' with '"  + rendered + "'");
+                        console.log(filename + ": " + sts[i] + "\nReplace\t " + _RULE[1] + "\nwith\t"  + rendered);
                         content = content.replace(sts[i], sts[i].replace(_RULE[1], rendered));
                     }
                 }
@@ -258,7 +258,7 @@ module.exports = function(options) {
                         }
                         _UrlPs.query = jsonToQuery(util._extend(_Query, _Append));
                         var rendered = renderingURL(_UrlPs);
-                        console.log(filename + ": " + sts[i] + " ----> Replacing '" + _RULE[1] + "' with '"  + rendered + "'");
+                        console.log(filename + ": " + sts[i] + "\nReplace\t " + _RULE[1] + "\nwith\t"  + rendered);
                         content = content.replace(sts[i], sts[i].replace(_RULE[1], rendered));
                     }
                 }
@@ -276,7 +276,7 @@ module.exports = function(options) {
                         }
                         _UrlPs.query = jsonToQuery(util._extend(_Query, _Append));
                         var rendered = renderingURL(_UrlPs);
-                        console.log(filename + ": " + sts[i] + " ----> Replacing '" + _RULE[1] + "' with '"  + rendered + "'");
+                        console.log(filename + ": " + sts[i] + "\nReplace\t " + _RULE[1] + "\nwith\t"  + rendered);
                         content = content.replace(sts[i], sts[i].replace(_RULE[1], rendered));
                     }
                 }
@@ -294,7 +294,7 @@ module.exports = function(options) {
                         }
                         _UrlPs.query = jsonToQuery(util._extend(_Query, _Append));
                         var rendered = renderingURL(_UrlPs);
-                        console.log(filename + ": " + sts[i] + " ----> Replacing '" + _RULE[1] + "' with '"  + rendered + "'");
+                        console.log(filename + ": " + sts[i] + "\nReplace\t " + _RULE[1] + "\nwith\t"  + rendered);
                         content = content.replace(sts[i], sts[i].replace(_RULE[1], rendered));
                     }
                 }
@@ -315,7 +315,7 @@ module.exports = function(options) {
                         }
                         _UrlPs.query = jsonToQuery(util._extend(_Query, _Append));
                         var rendered = renderingURL(_UrlPs);
-                        console.log(filename + ": " + sts[i] + " ----> Replacing '" + _RULE[1] + "' with '"  + rendered + "'");
+                        console.log(filename + ": " + sts[i] + "\nReplace\t " + _RULE[1] + "\nwith\t"  + rendered);
                         content = content.replace(sts[i], sts[i].replace(_RULE[1], rendered));
                     }
                 }
