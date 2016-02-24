@@ -219,7 +219,7 @@ module.exports = function(options) {
                         }
                         _UrlPs.query = jsonToQuery(util._extend(_Query, _Append));
                         var rendered = renderingURL(_UrlPs);
-                        console.log(filename + "\n\t" + sts[i] + "\n\tReplace\t " + _RULE[1] + "\nwith\t"  + rendered);
+                        console.log(filename + "\n\t" + sts[i] + "\n\tReplace\t " + _RULE[1] + "\n\twith\t"  + rendered);
                         content = content.replace(sts[i], sts[i].replace(_RULE[1], rendered));
                     }
                 }
@@ -240,7 +240,7 @@ module.exports = function(options) {
                         }
                         _UrlPs.query = jsonToQuery(util._extend(_Query, _Append));
                         var rendered = renderingURL(_UrlPs);
-                        console.log(filename + "\n\t" + sts[i] + "\n\tReplace\t " + _RULE[1] + "\nwith\t"  + rendered);
+                        console.log(filename + "\n\t" + sts[i] + "\n\tReplace\t " + _RULE[1] + "\n\twith\t"  + rendered);
                         content = content.replace(sts[i], sts[i].replace(_RULE[1], rendered));
                     }
                 }
@@ -258,7 +258,7 @@ module.exports = function(options) {
                         }
                         _UrlPs.query = jsonToQuery(util._extend(_Query, _Append));
                         var rendered = renderingURL(_UrlPs);
-                        console.log(filename + "\n\t" + sts[i] + "\n\tReplace\t " + _RULE[1] + "\nwith\t"  + rendered);
+                        console.log(filename + "\n\t" + sts[i] + "\n\tReplace\t " + _RULE[1] + "\n\twith\t"  + rendered);
                         content = content.replace(sts[i], sts[i].replace(_RULE[1], rendered));
                     }
                 }
@@ -276,7 +276,7 @@ module.exports = function(options) {
                         }
                         _UrlPs.query = jsonToQuery(util._extend(_Query, _Append));
                         var rendered = renderingURL(_UrlPs);
-                        console.log(filename + "\n\t" + sts[i] + "\n\tReplace\t " + _RULE[1] + "\nwith\t"  + rendered);
+                        console.log(filename + "\n\t" + sts[i] + "\n\tReplace\t " + _RULE[1] + "\n\twith\t"  + rendered);
                         content = content.replace(sts[i], sts[i].replace(_RULE[1], rendered));
                     }
                 }
@@ -294,7 +294,7 @@ module.exports = function(options) {
                         }
                         _UrlPs.query = jsonToQuery(util._extend(_Query, _Append));
                         var rendered = renderingURL(_UrlPs);
-                        console.log(filename + "\n\t" + sts[i] + "\n\tReplace\t " + _RULE[1] + "\nwith\t"  + rendered);
+                        console.log(filename + "\n\t" + sts[i] + "\n\tReplace\t " + _RULE[1] + "\n\twith\t"  + rendered);
                         content = content.replace(sts[i], sts[i].replace(_RULE[1], rendered));
                     }
                 }
@@ -315,7 +315,7 @@ module.exports = function(options) {
                         }
                         _UrlPs.query = jsonToQuery(util._extend(_Query, _Append));
                         var rendered = renderingURL(_UrlPs);
-                        console.log(filename + "\n\t" + sts[i] + "\n\tReplace\t " + _RULE[1] + "\nwith\t"  + rendered);
+                        console.log(filename + "\n\t" + sts[i] + "\n\tReplace\t " + _RULE[1] + "\n\twith\t"  + rendered);
                         content = content.replace(sts[i], sts[i].replace(_RULE[1], rendered));
                     }
                 }
@@ -363,8 +363,12 @@ module.exports = function(options) {
                     if (err) {
                         return cb(new gutil.PluginError('gulp-version-number', err));
                     }
-                    options['replaces'] && ( data = apply_replace(data, options.replaces));
-                    options['append'] && ( data = apply_append(data, options.append, file.path));
+                    try {
+                        options['replaces'] && ( data = apply_replace(data, options.replaces));
+                        options['append'] && ( data = apply_append(data, options.append, file.path));
+                    } catch(err) {
+                        console.log("Failed to parse " + file.path);
+                    }
                     file.contents = new Buffer(data);
                     cb(null, file);
                 });
