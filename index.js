@@ -153,7 +153,7 @@ module.exports = function(options) {
         return content;
     }
 
-    function apply_append(content, config) {
+    function apply_append(content, config, filename) {
 
         var _key = config['key'] || '_v';
         var apList = [];
@@ -195,7 +195,7 @@ module.exports = function(options) {
 
                 for (var type in apRule) {
                     !versionNumberList[type] && (versionNumberList[type] = apRule[type]['value'] ? version(apRule[type]['value']) : versionNumberList.main);
-                    content = appendto[type].call(apRule[type], content, apRule[type]['key'] || config['key'], versionNumberList[type]);
+                    content = appendto[type].call(apRule[type], content, apRule[type]['key'] || config['key'], versionNumberList[type], filename);
                 }
 
             }
@@ -205,7 +205,7 @@ module.exports = function(options) {
     }
 
     var appendto = {
-        'css' : function(content, k, v) {
+        'css' : function(content, k, v, filename) {
             var sts = content.match(/<link[^>]*rel=['"]?stylesheet['"]?[^>]*>/g);
             if (util.isArray(sts) && sts.length) {
                 for (var i = 0, len = sts.length; i < len; i++) {
@@ -218,13 +218,15 @@ module.exports = function(options) {
                             _Append[k] = v;
                         }
                         _UrlPs.query = jsonToQuery(util._extend(_Query, _Append));
-                        content = content.replace(sts[i], sts[i].replace(_RULE[1], renderingURL(_UrlPs)));
+                        var rendered = renderingURL(_UrlPs);
+                        console.log(filename + ": " + sts[i] + " ----> Replacing '" + _RULE[1] + "' with '"  + rendered + "'");
+                        content = content.replace(sts[i], sts[i].replace(_RULE[1], rendered));
                     }
                 }
             }
             return content;
         },
-        'js' : function(content, k, v) {
+        'js' : function(content, k, v, filename) {
             var sts = content.match(/<script[^>]*src=['"]?([^>'"]*)['"]?[^>]*>[^<]*<\/script>/g);
             if (util.isArray(sts) && sts.length) {
                 for (var i = 0, len = sts.length; i < len; i++) {
@@ -237,7 +239,9 @@ module.exports = function(options) {
                             _Append[k] = v;
                         }
                         _UrlPs.query = jsonToQuery(util._extend(_Query, _Append));
-                        content = content.replace(sts[i], sts[i].replace(_RULE[1], renderingURL(_UrlPs)));
+                        var rendered = renderingURL(_UrlPs);
+                        console.log(filename + ": " + sts[i] + " ----> Replacing '" + _RULE[1] + "' with '"  + rendered + "'");
+                        content = content.replace(sts[i], sts[i].replace(_RULE[1], rendered));
                     }
                 }
             }
@@ -253,7 +257,9 @@ module.exports = function(options) {
                             _Append[k] = v;
                         }
                         _UrlPs.query = jsonToQuery(util._extend(_Query, _Append));
-                        content = content.replace(sts[i], sts[i].replace(_RULE[1], renderingURL(_UrlPs)));
+                        var rendered = renderingURL(_UrlPs);
+                        console.log(filename + ": " + sts[i] + " ----> Replacing '" + _RULE[1] + "' with '"  + rendered + "'");
+                        content = content.replace(sts[i], sts[i].replace(_RULE[1], rendered));
                     }
                 }
             }
@@ -269,7 +275,9 @@ module.exports = function(options) {
                             _Append[k] = v;
                         }
                         _UrlPs.query = jsonToQuery(util._extend(_Query, _Append));
-                        content = content.replace(sts[i], sts[i].replace(_RULE[1], renderingURL(_UrlPs)));
+                        var rendered = renderingURL(_UrlPs);
+                        console.log(filename + ": " + sts[i] + " ----> Replacing '" + _RULE[1] + "' with '"  + rendered + "'");
+                        content = content.replace(sts[i], sts[i].replace(_RULE[1], rendered));
                     }
                 }
             }
@@ -285,13 +293,15 @@ module.exports = function(options) {
                             _Append[k] = v;
                         }
                         _UrlPs.query = jsonToQuery(util._extend(_Query, _Append));
-                        content = content.replace(sts[i], sts[i].replace(_RULE[1], renderingURL(_UrlPs)));
+                        var rendered = renderingURL(_UrlPs);
+                        console.log(filename + ": " + sts[i] + " ----> Replacing '" + _RULE[1] + "' with '"  + rendered + "'");
+                        content = content.replace(sts[i], sts[i].replace(_RULE[1], rendered));
                     }
                 }
             }
             return content;
         },
-        'image' : function(content, k, v) {
+        'image' : function(content, k, v, filename) {
             var sts = content.match(/<img[^>]*>/g);
             if (util.isArray(sts) && sts.length) {
                 for (var i = 0, len = sts.length; i < len; i++) {
@@ -304,7 +314,9 @@ module.exports = function(options) {
                             _Append[k] = v;
                         }
                         _UrlPs.query = jsonToQuery(util._extend(_Query, _Append));
-                        content = content.replace(sts[i], sts[i].replace(_RULE[1], renderingURL(_UrlPs)));
+                        var rendered = renderingURL(_UrlPs);
+                        console.log(filename + ": " + sts[i] + " ----> Replacing '" + _RULE[1] + "' with '"  + rendered + "'");
+                        content = content.replace(sts[i], sts[i].replace(_RULE[1], rendered));
                     }
                 }
             }
@@ -351,9 +363,8 @@ module.exports = function(options) {
                     if (err) {
                         return cb(new gutil.PluginError('gulp-version-number', err));
                     }
-					console.log("Analyzing file " + file.path);
                     options['replaces'] && ( data = apply_replace(data, options.replaces));
-                    options['append'] && ( data = apply_append(data, options.append));
+                    options['append'] && ( data = apply_append(data, options.append, file.path));
                     file.contents = new Buffer(data);
                     cb(null, file);
                 });
